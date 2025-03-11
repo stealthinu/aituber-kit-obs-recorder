@@ -2,7 +2,6 @@ import { Message } from '../messages/messages'
 import i18next from 'i18next'
 import settingsStore, {
   multiModalAIServiceKey,
-  multiModalAIServices,
 } from '@/features/stores/settings'
 import toastStore from '@/features/stores/toast'
 
@@ -19,6 +18,8 @@ const getAIConfig = () => {
     selectAIModel: ss.selectAIModel,
     azureEndpoint: ss.azureEndpoint,
     useSearchGrounding: ss.useSearchGrounding,
+    temperature: ss.temperature,
+    maxTokens: ss.maxTokens,
   }
 }
 
@@ -35,6 +36,8 @@ export async function getVercelAIChatResponse(messages: Message[]) {
     selectAIModel,
     azureEndpoint,
     useSearchGrounding,
+    temperature,
+    maxTokens,
   } = getAIConfig()
 
   try {
@@ -51,6 +54,8 @@ export async function getVercelAIChatResponse(messages: Message[]) {
         azureEndpoint: azureEndpoint,
         stream: false,
         useSearchGrounding: useSearchGrounding,
+        temperature: temperature,
+        maxTokens: maxTokens,
       }),
     })
 
@@ -80,6 +85,8 @@ export async function getVercelAIChatResponseStream(
     selectAIModel,
     azureEndpoint,
     useSearchGrounding,
+    temperature,
+    maxTokens,
   } = getAIConfig()
 
   const response = await fetch('/api/aiChat', {
@@ -95,6 +102,8 @@ export async function getVercelAIChatResponseStream(
       azureEndpoint: azureEndpoint,
       stream: true,
       useSearchGrounding: useSearchGrounding,
+      temperature: temperature,
+      maxTokens: maxTokens,
     }),
   })
 

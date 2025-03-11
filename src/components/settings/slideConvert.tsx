@@ -136,16 +136,22 @@ const SlideConvert: React.FC<SlideConvertProps> = ({ onFolderUpdate }) => {
           {aiService === 'openai' && (
             <>
               <option value="chatgpt-4o-latest">chatgpt-4o-latest</option>
-              <option value="gpt-4o-mini">gpt-4o-mini</option>
-              <option value="gpt-4o-2024-08-06">gpt-4o-2024-08-06</option>
+              <option value="gpt-4o-mini-2024-07-18">
+                gpt-4o-mini-2024-07-18
+              </option>
               <option value="gpt-4o-2024-11-20">gpt-4o-2024-11-20</option>
-              <option value="gpt-4-turbo">gpt-4-turbo</option>
+              <option value="gpt-4.5-preview-2025-02-27">
+                gpt-4.5-preview-2025-02-27
+              </option>
             </>
           )}
           {aiService === 'anthropic' && (
             <>
               <option value="claude-3-opus-20240229">
                 claude-3-opus-20240229
+              </option>
+              <option value="claude-3-7-sonnet-20250219">
+                claude-3-7-sonnet-20250219
               </option>
               <option value="claude-3-5-sonnet-20241022">
                 claude-3.5-sonnet-20241022
@@ -157,22 +163,16 @@ const SlideConvert: React.FC<SlideConvertProps> = ({ onFolderUpdate }) => {
           )}
           {aiService === 'google' && (
             <>
+              <option value="gemini-2.0-flash-001">gemini-2.0-flash-001</option>
               <option value="gemini-1.5-flash-latest">
                 gemini-1.5-flash-latest
+              </option>
+              <option value="gemini-1.5-flash-8b-latest">
+                gemini-1.5-flash-8b-latest
               </option>
               <option value="gemini-1.5-pro-latest">
                 gemini-1.5-pro-latest
               </option>
-              <option value="gemini-1.5-flash-exp-0827">
-                gemini-1.5-flash-exp-0827
-              </option>
-              <option value="gemini-1.5-pro-exp-0827">
-                gemini-1.5-pro-exp-0827
-              </option>
-              <option value="gemini-1.5-flash-8b-exp-0827">
-                gemini-1.5-flash-8b-exp-0827
-              </option>
-              <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
             </>
           )}
         </select>
