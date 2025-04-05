@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
+
 import slideStore from '@/features/stores/slide'
 import homeStore from '@/features/stores/home'
 import { speakMessageHandler } from '@/features/chat/handlers'
@@ -6,16 +7,16 @@ import SlideContent from './slideContent'
 import SlideControls from './slideControls'
 import * as OBSWebSocketModule from 'obs-websocket-js'
 
-const OBSWebSocket = OBSWebSocketModule.default || OBSWebSocketModule;
+const OBSWebSocket = (OBSWebSocketModule as any).default || OBSWebSocketModule;
 
 // OBS接続用の設定を環境変数から取得
 const obsConfig = {
-  url: process.env.NEXT_PUBLIC_OBS_WEBSOCKET_URL || 'ws://localhost:4455',
-  password: process.env.NEXT_PUBLIC_OBS_WEBSOCKET_PASSWORD || '', // パスワードを.envから取得
+  url: (typeof process !== 'undefined' && process.env && process.env.NEXT_PUBLIC_OBS_WEBSOCKET_URL) || 'ws://localhost:4455',
+  password: (typeof process !== 'undefined' && process.env && process.env.NEXT_PUBLIC_OBS_WEBSOCKET_PASSWORD) || '', // パスワードを.envから取得
 }
 
 interface SlidesProps {
-  markdown: string
+  markdown: string;
 }
 
 export const goToSlide = (index: number) => {
@@ -24,13 +25,13 @@ export const goToSlide = (index: number) => {
   })
 }
 
-const Slides: React.FC<SlidesProps> = ({ markdown }) => {
+const Slides: React.FC<SlidesProps> = ({ markdown }: SlidesProps) => {
   const [marpitContainer, setMarpitContainer] = useState<Element | null>(null)
-  const isPlaying = slideStore((state) => state.isPlaying)
-  const currentSlide = slideStore((state) => state.currentSlide)
-  const selectedSlideDocs = slideStore((state) => state.selectedSlideDocs)
-  const isAutoplay = slideStore((state) => state.isAutoplay)
-  const chatProcessingCount = homeStore((s) => s.chatProcessingCount)
+  const isPlaying = slideStore((state: any) => state.isPlaying)
+  const currentSlide = slideStore((state: any) => state.currentSlide)
+  const selectedSlideDocs = slideStore((state: any) => state.selectedSlideDocs)
+  const isAutoplay = slideStore((state: any) => state.isAutoplay)
+  const chatProcessingCount = homeStore((s: any) => s.chatProcessingCount)
   const [slideCount, setSlideCount] = useState(0)
   
   // スライドの準備状態を追跡
@@ -184,7 +185,7 @@ const Slides: React.FC<SlidesProps> = ({ markdown }) => {
     }
     
     // すべてのビデオが終了しているかチェック
-    return currentVideosRef.current.every(video => 
+    return currentVideosRef.current.every((video: HTMLVideoElement) => 
       video.ended || video.paused || video.currentTime >= video.duration - 0.5
     );
   }, []);
@@ -194,9 +195,9 @@ const Slides: React.FC<SlidesProps> = ({ markdown }) => {
     (slideIndex: number) => {
       const getCurrentLines = () => {
         try {
-          const scripts = require(
-            `../../public/slides/${selectedSlideDocs}/scripts.json`
-          )
+          const scripts = (window as any).require ?
+            (window as any).require(`../../public/slides/${selectedSlideDocs}/scripts.json`) :
+            import(`../../public/slides/${selectedSlideDocs}/scripts.json`)
           const currentScript = scripts.find(
             (script: { page: number }) => script.page === slideIndex
           )
@@ -431,7 +432,7 @@ const Slides: React.FC<SlidesProps> = ({ markdown }) => {
 
   // 次のスライドに進む関数
   const nextSlide = useCallback(() => {
-    slideStore.setState((state) => {
+    slideStore.setState((state: any) => {
       const newSlide = Math.min(state.currentSlide + 1, slideCount - 1);
       
       // 再生中の場合は音声を読み上げる
@@ -445,7 +446,7 @@ const Slides: React.FC<SlidesProps> = ({ markdown }) => {
 
   // 前のスライドに戻る関数
   const prevSlide = useCallback(() => {
-    slideStore.setState((state) => ({
+    slideStore.setState((state: any) => ({
       currentSlide: Math.max(state.currentSlide - 1, 0),
     }));
   }, []);

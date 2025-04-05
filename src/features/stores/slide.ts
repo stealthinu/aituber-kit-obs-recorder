@@ -10,7 +10,7 @@ interface SlideState {
 
 const slideStore = create<SlideState>()(
   persist(
-    (set, get) => ({
+    (set: any, get: any) => ({
       isPlaying: false,
       currentSlide: 0,
       selectedSlideDocs: '',
@@ -18,7 +18,7 @@ const slideStore = create<SlideState>()(
     }),
     {
       name: 'aitube-kit-slide',
-      partialize: (state) => ({ selectedSlideDocs: state.selectedSlideDocs }),
+      partialize: (state: SlideState) => ({ selectedSlideDocs: state.selectedSlideDocs }),
     }
   )
 )
