@@ -21,6 +21,12 @@ const generateSessionId = () => {
  * @param receivedMessage 処理する文字列
  */
 export const speakMessageHandler = async (receivedMessage: string) => {
+  // null/undefined チェックを追加
+  if (!receivedMessage || typeof receivedMessage !== 'string') {
+    console.warn('Invalid receivedMessage:', receivedMessage)
+    return
+  }
+
   const sessionId = generateSessionId()
   const hs = homeStore.getState()
   const currentSlideMessages: string[] = []
