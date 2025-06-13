@@ -1,6 +1,7 @@
 services:
   obs:
     image: ghcr.io/stealthinu/obs-url-recorder:master
+    shm_size: 2gb
     environment:
       OBS_BROWSER_URL: http://app:3000/?slide=demo&autoplay=true
     ports:
